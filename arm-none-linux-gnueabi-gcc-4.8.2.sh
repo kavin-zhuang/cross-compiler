@@ -37,7 +37,8 @@ BUILD_GCC_FULL=true
 
 #------------------------------------------------------------------------------
 # Global Setting
-# should check the core num.
+
+CORE_NUM=4
 
 #------------------------------------------------------------------------------
 # 设置临时的环境变量
@@ -109,7 +110,7 @@ if [ $BUILD_BINUTILS ]; then
   mkdir build
   cd build
   ../configure --prefix=$PREFIX --target=$TARGET > /dev/null
-  make -j4 > /dev/null
+  make -j$(CORE_NUM) > /dev/null
   make install > /dev/null
 
   echo -e "done\n"
@@ -136,10 +137,10 @@ if [ $BUILD_GCC_OF_C ]; then
   cd build
   ../configure --prefix=$PREFIX --target=$TARGET --without-headers --enable-languages=c --disable-threads --with-newlib --disable-shared --disable-libmudflap --disable-libssp --disable-decimal-float > /dev/null
 
-  make -j4 all-gcc  > /dev/null
+  make -j$(CORE_NUM) all-gcc  > /dev/null
   make install-gcc  > /dev/null
 
-  make -j4 all-target-libgcc  > /dev/null
+  make -j$(CORE_NUM) all-target-libgcc  > /dev/null
   make install-target-libgcc  > /dev/null
 
   echo -e "done\n"
@@ -175,7 +176,7 @@ if [ $BUILD_GLIBC ]; then
 
   ../configure --host=$TARGET --target=$TARGET --prefix=$TARGET_PREFIX --enable-add-ons --disable-profile --cache-file=config.cache --with-binutils=$PREFIX/bin --with-headers=$TARGET_PREFIX/include > /dev/null
 
-  make -j4 all > /dev/null
+  make -j$(CORE_NUM) all > /dev/null
   make install > /dev/null
 
   echo -e "done\n"
@@ -201,7 +202,7 @@ if [ $BUILD_GCC_FULL ]; then
 
   ../configure --prefix=$PREFIX --target=$TARGET --enable-shared --enable-languages=c,c++ > /dev/null
 
-  make -j4 > /dev/null
+  make -j$(CORE_NUM) > /dev/null
   make install > /dev/null
 
   echo -e "done\n"
